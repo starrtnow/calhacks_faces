@@ -89,8 +89,8 @@ class Encoder(nn.Module):
 
 
 
-        self.mu_out = nn.Linear(z_channel * 16 * self.out_dimension, z_dim)
-        self.var_out = nn.Linear(z_channel * 16 * self.out_dimension, z_dim)
+        self.mu_out = nn.Linear(z_channel * 16 * 1, z_dim)
+        self.var_out = nn.Linear(z_channel * 16 * 1, z_dim)
 
 
     def forward(self, X):
