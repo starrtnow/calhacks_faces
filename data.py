@@ -9,7 +9,8 @@ def split_video(video_path, out_dir):
     count = 0
     while success:
         success, image = video.read()
-        image_path = os.path.join(out_dir, "frame{}".format(count))
+        image_path = os.path.join(out_dir, "frame{}.png".format(count))
+        print("Split frame {}".format(count))
         cv2.imwrite(image_path, image)
         count += 1
 
