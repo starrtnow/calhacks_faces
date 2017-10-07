@@ -10,12 +10,12 @@ def split_video(video_path, out_dir):
     while success:
         success, image = video.read()
         image_path = os.path.join(out_dir, "frame{}.png".format(count))
-        print("Split frame {}".format(count))
         cv2.imwrite(image_path, image)
+        print("Split frame {} to {}".format(count, image_path))
         count += 1
 
 align = openface.AlignDlib("dl.dat")
-def cut_head(image_path, out_dir):
+def cut_head(image_path, out_dir, resolution=(64, 64)):
     image = misc.imread(image_path)
     bb = align.getLargestFaceBoundingBox(image, skipMulti=True)
 
@@ -25,10 +25,13 @@ def cut_head(image_path, out_dir):
 
     top, left, bottom, right = bb.top(), bb.left(), bb.bottom(), bb.right()
     image = image[top:bottom, left:right]
+    image = misc.imresize(image, resolution)
 
     _, image_name = os.path.split(image_path)
 
     misc.imsave(os.path.join(out_dir, image_name), image)
+
+
 
 
 
