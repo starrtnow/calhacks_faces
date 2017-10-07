@@ -166,7 +166,7 @@ default_params = {
 class VAENetwork(Network):
 
     def __init__(self, dataset, hyper_params = {}, cuda=False):
-        side_length =32
+        side_length = 128
         RGB = 3
 
 
