@@ -138,9 +138,11 @@ class Decoder(nn.Module):
             nn.ConvTranspose2d(z_channel * 4, z_channel * 2, kernel_size, 2, 1, bias=False),
             nn.BatchNorm2d(z_channel * 2),
             nn.ReLU(),
+            nn.Dropout2d(p=droppout),
             nn.ConvTranspose2d(z_channel * 2, z_channel, kernel_size, 2, 1, bias=False),
             nn.BatchNorm2d(z_channel),
-            nn.Relu(),
+            nn.ReLU(),
+            nn.Dropout2d(p=droppout),
             nn.ConvTranspose2d(z_channel, n_channel, kernel_size, 2, 1, bias=False),
             nn.Sigmoid()
         )
