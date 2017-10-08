@@ -38,13 +38,10 @@ img.size()
 i = net.sample(nithin)
 import numpy as np
 print("HHH")
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 print("YYY")
 #%matplotlib inline
 def show(img):
-    npimg = img.numpy()
-    print("Hi")
-    a = plt.imshow(np.transpose(npimg, (1,2,0)), interpolation='nearest')
-    torchvision.utils.save_image(a,'generated.png')
+    torchvision.utils.save_image(img,'generated.png')
 show(i[0])
 
