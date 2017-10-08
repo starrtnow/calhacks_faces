@@ -1,5 +1,6 @@
 import sys
 from PyQt4 import QtGui, QtCore
+import run as run
 
 #class Widget(QtGui.QWidget):
 class Widget(QtGui.QMainWindow):
@@ -48,6 +49,7 @@ class Widget(QtGui.QMainWindow):
         #Button 1, a normal button
         QtGui.QToolTip.setFont(QtGui.QFont('SansSerif', 10))
         self.btn = QtGui.QPushButton('Generate!', self)
+        self.btn.clicked.connect(self.starr)
         self.btn.move(self.w/2.50, self.h/1.35)  #btn.move(self.w/2.15, self.h/2.15) is middle 
         self.layout1.addWidget(self.btn)
 
@@ -116,6 +118,9 @@ class Widget(QtGui.QMainWindow):
         #Popup when the credits button is pressed
         class MyDialog(QtGui.QDialog):
             def __init__(self, parent=None):
+                class A: 
+                    pass
+
                 super(MyDialog, self).__init__(parent)
 
                 self.buttonBox = QtGui.QDialogButtonBox(self)
@@ -145,6 +150,12 @@ class Widget(QtGui.QMainWindow):
 
         self.dialogTextBrowser = MyDialog(self)
 
+        #Rendering the image from Generate
+        pic.setGeometry(10, 10, 400, 200)
+        pixmap = QtGui.QPixmap(FILENAME)
+        pixmap = pixmap.scaledToHeight(200)
+        pic.setPixmap(pixmap)
+
         #Creating page 1
         vBoxlayout1.addWidget(self.instructions)
         page1.setLayout(vBoxlayout1)
@@ -156,6 +167,8 @@ class Widget(QtGui.QMainWindow):
         vBoxlayout2.addWidget(self.btn)
         vBoxlayout2.addWidget(self.qbtn)
         page2.setLayout(vBoxlayout2)
+
+        #Creating page 3
 
         self.notebook.addTab(page1, "Instructions")
         self.notebook.addTab(page2, "Upload")
@@ -199,8 +212,15 @@ class Widget(QtGui.QMainWindow):
         f.close()
         print("Hi")
 
-class A:
-    pass
+    def starr(self, filename):
+        run.generate(filename)
+        self.renderImage()
+
+    def renderImage(self):
+        self.generated_image = QtGui.QLabel() 
+        self.generated_pixmap = QtGui.QPixmap("generated.png")
+        self.generated_image.setPixmap(self.generated_pixmap)
+        self.generated_image.show()
 
 def main():
     app = QtGui.QApplication(sys.argv)

@@ -27,21 +27,23 @@ def pil_loader(path):
     with open(path, 'rb') as f:
         with Image.open(f) as img:
             return img.convert('RGB')
-nithin = pil_loader("starr.jpg")
-print("Bonjour")
-nithin = tf.ToTensor()(nithin)
-nithin = nithin.view(1, 3, 128, 128)
-loader = DataLoader(dataset=dataset, shuffle=False, batch_size=1)
-diter = iter(loader)
-img, label =  diter.next()
-img.size()
-i = net.sample(nithin)
-import numpy as np
-print("HHH")
-#import matplotlib.pyplot as plt
-print("YYY")
-#%matplotlib inline
-def show(img):
-    torchvision.utils.save_image(img,'generated.png')
-show(i[0])
+
+def generate(file_location):
+    nithin = pil_loader(file_location)
+    print("Bonjour")
+    nithin = tf.ToTensor()(nithin)
+    nithin = nithin.view(1, 3, 128, 128)
+    loader = DataLoader(dataset=dataset, shuffle=False, batch_size=1)
+    diter = iter(loader)
+    img, label =  diter.next()
+    img.size()
+    i = net.sample(nithin)
+    import numpy as np
+    print("HHH")
+    #import matplotlib.pyplot as plt
+    print("YYY")
+    #%matplotlib inline
+    def show(img):
+        torchvision.utils.save_image(img,'generated.png')
+    show(i[0])
 
