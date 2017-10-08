@@ -174,7 +174,7 @@ class VAENetwork(Network):
         self.params = default_params
         self.params.update(hyper_params)
 
-        self.save_path = "saved_networks/VAE"
+        self.save_path = "./saved_networks/vae"
 
         self.dataloader = DataLoader(dataset=dataset,
                                      shuffle=True,
@@ -242,7 +242,7 @@ class VAENetwork(Network):
         self.decoder.eval()
 
         if len(img) < 1:
-            z = Variable(torch.FloatTensor(self.params['batch size'], self.params['z_dim']).normal_())
+            z = Variable(torch.FloatTensor(1 , self.params['z_dim']).normal_())
             if self.use_cuda:
                 z = z.cuda()
         else:
@@ -272,14 +272,11 @@ class VAENetwork(Network):
 
     def load(self, name):
         path = os.path.join(self.save_path, name)
-        if not os.path.exists(path):
-            raise RuntimeError("Saved network does not exist")
-
         encoder_path = os.path.join(path, "encoder.net")
         decoder_path = os.path.join(path, "decoder.net")
 
-        self.encoder.load_state_dict(torch.load(encoder_path))
-        self.decoder.load_state_dict(torch.load(decoder_path))
+        self.encoder.load_state_dict(torch.load(encoder_path, map_location={'cuda:0': 'cpu'}))
+        self.decoder.load_state_dict(torch.load(decoder_path, map_location={'cuda:0': 'cpu'}))
 
 
     def __str__(self):

@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
     n_epochs = args.epoch
     dataset = torchvision.datasets.ImageFolder(root=args.root, transform=tf.ToTensor())
-    net = VAENetwork(dataset, params, True)
+    net = VAENetwork(dataset, params, False)
     if args.load != "none":
         net.load(args.load)
         print("Loaded {}".format(args.load))

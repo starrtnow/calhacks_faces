@@ -4,3 +4,5 @@ openface
 *.png
 data
 sample
+*.jpg
+*.jpeg
