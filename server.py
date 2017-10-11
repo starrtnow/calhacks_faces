@@ -40,6 +40,7 @@ def generate_random_face():
     return send_file("{}.png".format(iid))
 
 from scipy import misc
+import numpy as np
 from PIL import Image
 import cv2
 import torchvision.transforms as tf
@@ -58,11 +59,20 @@ def generate_from_image(filename, uid):
     morphed = vae.sample(face)
     
     morphed_file = os.path.join("faces", "morphed{}.png".format(uid))
+    
     torchvision.utils.save_image(morphed[0], morphed_file)
     img = data.paste_head(morphed_file, path)
+
+    m_face = cv2.imread(morphed_file)
+    p_face = cv2.imread(os.path.join("faces", filename))
+
+    big_image = np.zeros((img.shape[0] + 129, max(img.shape[1], 129 * 2), 3), np.uint8)
+    big_image[0:img.shape[0], 0:img.shape[1]] = img
+    big_image[img.shape[0]:(img.shape[0] + 128), 0:128] = p_face
+    big_image[img.shape[0]:(img.shape[0] + 128), 128:(128 + 128)] = m_face
     
     wtf = os.path.join("faces", "combined{}.png".format(uid))
-    cv2.imwrite(wtf, img)
+    cv2.imwrite(wtf, big_image)
     return send_file(wtf)
 
 @app.route("/upload", methods=['GET', 'POST'])
